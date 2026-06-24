@@ -134,3 +134,4 @@ cython_debug/
 
 # macOS
 .DS_Store
+demo-script.py
