@@ -53,10 +53,19 @@ with Rich color applied to the values.
 - `raycast_console()`: returns `Console(force_terminal=True, color_system="truecolor", highlight=False)`.
 - `console`: a default Raycast-configured console.
 - `Stat`: a label/value/style tuple for compact inline output.
-- `inline(...)`: builds a Rich `Text` object for one-line output.
-- `print_inline(...)`: prints `inline(...)` through the default console.
-- `now_label(...)`: formats local timestamps like `Jun 24, 2:55 PM`.
+- `inline(...)` / `print_inline(...)`: build/print a one-line Rich `Text` payload. `refreshed_at=` accepts `True`, a `datetime`, an epoch `int`/`float`, an ISO string, a tooltime label, or a pre-formatted string.
+- `now_label(...)`: formats local timestamps like `Jun 24, 2:55 PM`. Accepts the same input types as `refreshed_at`.
+- `date_label(timestamp=None, *, form="iso")`: formats a timestamp as an ISO/date string for tabular listings (`"2020-09-13T12:26:40Z"`, `"2020-09-13 12:26:40Z"`, `"2020-09-13"`, or `"20200913"`).
 - `money(...)`: formats numeric values as currency without Rich markup.
-- `balance_style(...)`: returns `green` for non-negative values, else `red`.
-- `cost_style(...)`: returns `red` for non-negative values, else `green`.
+- `balance_style(...)` / `cost_style(...)`: return `green`/`red` based on sign convention.
+- `stale_style(seconds_ago, ...)`: returns a Rich color tier describing data freshness (`green` \<1m, `cyan` \<1h, `yellow` \<1d, else `red`).
+- `compact_number(value, *, places=1)`: abbreviates large numbers as `1.5k`/`10M`/`1T`; `None` returns `"-"`.
+- `truncate_text(text, width, *, ellipsis="...")`: ellipsis-aware truncation for fixed-width rows.
+- `duration_label(seconds, *, form=...)`: formats a length of time via `tooltime`. `form` is one of `"compact"` (`"15d"`), `"phrase"` (`"15 days"`), `"clock"` (`"3:0:10:10"`), or `"clock_phrase"` (`"3 days, 0:10:10"`).
+- `time_ago(timestamp, *, now=None, form="compact")`: returns `"just now"`, `"5m ago"`, `"3h ago"`, `"2d ago"`, then a calendar date past a week. Accepts epoch/ISO/`datetime`. Use `form="phrase"` for tooltime's multi-unit phrase.
+- `period_bounds(timestamp=None, *, unit="day", block_size=1)`: returns `(start, end)` epoch seconds for the standardized day/hour/week/month block containing `timestamp` (defaults to now), via `tooltime.get_standard_timeperiod`.
 - `print_status(...)` / `print_error(...)`: conventional short status lines.
+- `print_request_error(exc)`: duck-typed handler for the recurring `httpx.RequestError` / `HTTPStatusError` / `ValueError` clause. No httpx dependency — uses `getattr(exc, "response", None)`.
+- `die(message)`: `print_error(message)` + `raise SystemExit(1)` — the standard "missing env var / bad API shape" bail-out.
+
+Time helpers (everything except `money`/`Stat`/`raycast_console`) are backed by [`tooltime`](https://github.com/sslivkoff/tooltime), which is pulled in as a runtime dependency.
