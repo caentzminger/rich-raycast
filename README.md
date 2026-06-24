@@ -6,11 +6,19 @@ status text.
 
 ## Install in a uv script command
 
+Use the following command to add the library as a script dependency:
+
+```bash
+uv add --script <script-name>.py https://github.com/caentzminger/rich-raycast.git
+```
+
+That command will result in the script's frontmatter being added/updated like such:
+
 ```python
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "rich-raycast @ file:///Users/cole/raycast/rich-raycast",
+#     "rich-raycast @ git+https://github.com/caentzminger/rich-raycast.git",
 # ]
 # ///
 ```
