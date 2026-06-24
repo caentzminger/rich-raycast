@@ -8,15 +8,15 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "rich>=14.2.0",
+    "rich>=15.0.0",
 ]
 
 [dependency-groups]
 dev = [
     "pre-commit>=4.0",
-    "pytest>=9.0.2",
-    "ruff>=0.14.9",
-    "ty>=0.0.1a35",
+    "pytest>=9.1.1",
+    "ruff>=0.15.19",
+    "ty>=0.0.53",
 ]
 
 [build-system]
